@@ -1,0 +1,9 @@
+{
+  "name": "LineBotGAS",
+  "version": "0.0.1",
+  "description": "LINE Bot for Google App Script",
+  "main": "index.js",
+  "repository": "https://github.com/geo-mm/LineBotGAS.git",
+  "author": "Joseph Yang <geo.mm.yahoo@gmail.com>",
+  "license": "MIT"
+}

@@ -5,5 +5,21 @@
   "main": "index.js",
   "repository": "https://github.com/geo-mm/LineBotGAS.git",
   "author": "Joseph Yang <geo.mm.yahoo@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src/"
+    ]
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "crypto-browserify": "^3.12.0",
+    "events": "^3.3.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
+  }
 }

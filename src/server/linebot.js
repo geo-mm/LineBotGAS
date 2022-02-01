@@ -1,11 +1,13 @@
 'use strict'; // Required to use class in node v4
 
-const EventEmitter = require('events');
-const fetch = require('node-fetch');
-const crypto = require('crypto');
+//const EventEmitter = require('events');
+//const fetch = require('node-fetch');
+//const crypto = require('crypto');
 //const http = require('http');
-const bodyParser = require('body-parser');
-const debug = require('debug')('linebot');
+//const bodyParser = require('body-parser');
+//const debug = require('debug')('linebot');
+
+const { EventEmitter, crypto } = Utilsjs;
 
 class LineBot extends EventEmitter {
     constructor(options) {
@@ -14,6 +16,8 @@ class LineBot extends EventEmitter {
         this.options.channelId = options.channelId || '';
         this.options.channelSecret = options.channelSecret || '';
         this.options.channelAccessToken = options.channelAccessToken || '';
+        this.options.debug = options.debug;
+        this.options.fetch = options.fetch;
         if (this.options.verify === undefined) {
             this.options.verify = true;
         }
@@ -24,6 +28,14 @@ class LineBot extends EventEmitter {
         };
         this.endpoint = 'https://api.line.me/v2/bot';
         this.dataEndpoint = 'https://api-data.line.me/v2/bot';
+    }
+
+    debug(...args) { 
+        return this.options.debug(args); 
+    }
+
+    fetch(...args) {
+        return this.options.fetch(args);
     }
 
     verify(rawBody, signature) {
@@ -340,22 +352,22 @@ class LineBot extends EventEmitter {
     }
 
     // Optional Express.js middleware
-    parser() {
-        const parser = bodyParser.json({
-            verify: function (req, res, buf, encoding) {
-                req.rawBody = buf.toString(encoding);
-            },
-        });
-        return (req, res) => {
-            parser(req, res, () => {
-                if (this.options.verify && !this.verify(req.rawBody, req.get('X-Line-Signature'))) {
-                    return res.sendStatus(400);
-                }
-                this.parse(req.body);
-                return res.json({});
-            });
-        };
-    }
+    // parser() {
+    //     const parser = bodyParser.json({
+    //         verify: function (req, res, buf, encoding) {
+    //             req.rawBody = buf.toString(encoding);
+    //         },
+    //     });
+    //     return (req, res) => {
+    //         parser(req, res, () => {
+    //             if (this.options.verify && !this.verify(req.rawBody, req.get('X-Line-Signature'))) {
+    //                 return res.sendStatus(400);
+    //             }
+    //             this.parse(req.body);
+    //             return res.json({});
+    //         });
+    //     };
+    // }
 
     // // Optional built-in http server
     // listen(path, port, callback) {
@@ -402,7 +414,8 @@ function yesterday() {
         month: '2-digit',
         year: 'numeric',
     });
-    return yesterday.substr(6, 4) + yesterday.substr(0, 2) + yesterday.substr(3, 2);
+    //return yesterday.substr(6, 4) + yesterday.substr(0, 2) + yesterday.substr(3, 2);
+    return yesterday.slice(6, 10) + yesterday.slice(0, 2) + yesterday.slice(3, 5);
 }
 
 module.exports = createBot;
